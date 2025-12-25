@@ -209,6 +209,14 @@ export default function Profile() {
             </>
           ) : (
             <>
+              {(user?.role === "admin" || user?.role === "super-admin") && (
+                <Link
+                  to="/dashboard/admin"
+                  className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primaryHover transition-all duration-300 font-bold shadow-lg hover:shadow-primary/40 hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  Admin Dashboard
+                </Link>
+              )}
               <Link
                 to="/update-password"
                 className="px-6 py-2 border border-primary text-primary rounded-lg hover:bg-primary/5 transition-colors font-medium"
