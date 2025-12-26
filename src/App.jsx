@@ -23,6 +23,9 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import Question from "./dashboard/admin/Question/Question";
 import ExamQuestions from "./dashboard/admin/Question/ExamQuestion";
+import GeneralDashboard from "./components/GeneralDashboard";
+import StudentsCourses from "./components/StudentsCourses"
+
 
 
 const App = () => {
@@ -36,7 +39,8 @@ const App = () => {
           {/* Public Routes */}
           <Route path="courses" element={<Courses />} />
           <Route path="about" element={<AboutUs />} />
-          <Route path="pricing" element={<Pricing />} />
+          <Route path="students" element={<GeneralDashboard/>} />
+          <Route path="/Courses/:id" element={<StudentsCourses />} />
           <Route path="contact" element={<Contact />} />
           <Route path='profile' element={<Profile />} />
 

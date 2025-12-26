@@ -9,6 +9,7 @@ export default {
       colors: {
         primary: "#FF9500",
         primaryHover: "#e68600",
+        studentBg:"#f5f6f7",
         background: "#FFFFFF",
         section: "#FAFAFA",
         textPrimary: "#1F2937",
