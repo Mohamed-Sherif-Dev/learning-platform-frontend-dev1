@@ -1,63 +1,49 @@
 
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Button from './ui/Button';
 
 const Courses = () => {
-  const courses = [
-    {
-      id: 1,
-      title: "Web Design Fundamentals",
-      description: "Learn the fundamentals of web design, including HTML, CSS, and responsive design principles. Develop the skills to create visually appealing and user-friendly websites.",
-      image: "/photo_2025-12-17_02-48-38.jpg", // Web design related
-      duration: "4 Weeks",
-      level: "Beginner",
-      author: "By John Smith"
-    },
-    {
-      id: 2,
-      title: "UI/UX Design",
-      description: "Master the art of creating intuitive user interfaces (UI) and enhancing user experiences (UX). Learn design principles, wireframing, prototyping, and usability testing techniques.",
-      image: "/photo_2025-12-17_02-48-44.jpg", // UI/UX related
-      duration: "6 Weeks",
-      level: "Intermediate",
-      author: "By Emily Johnson"
-    },
-    {
-      id: 3,
-      title: "Mobile App Development",
-      description: "Dive into the world of mobile app development. Learn to build native iOS and Android applications using industry-leading frameworks like Swift and Kotlin.",
-      image: "/photo_2025-12-17_02-48-49.jpg", // Mobile app related
-      duration: "8 Weeks",
-      level: "Intermediate",
-      author: "By David Brown"
-    },
-    {
-      id: 4,
-      title: "Graphic Design for Beginners",
-      description: "Discover the fundamentals of graphic design, including typography, color theory, layout design, and image manipulation techniques. Create visually stunning designs for print and digital media.",
-      image: "/photo_2025-12-17_02-48-57.jpg", // Graphic design related
-      duration: "10 Weeks",
-      level: "Beginner",
-      author: "By Sarah Thompson"
-    },
-    {
-      id: 5,
-      title: "Front-End Web Development",
-      description: "Become proficient in front-end web development. Learn HTML, CSS, JavaScript, and popular frameworks like Bootstrap and React. Build interactive and responsive websites.",
-      image: "/photo_2025-12-17_02-49-00.jpg", // Coding related
-      duration: "10 Weeks",
-      level: "Intermediate",
-      author: "By Michael Adams"
-    },
-    {
-      id: 6,
-      title: "Advanced JavaScript",
-      description: "Take your JavaScript skills to the next level. Explore advanced concepts like closures, prototypes, asynchronous programming, and ES6 features. Build complex applications with confidence.",
-      image: "/photo_2025-12-17_02-49-06.jpg", // JS Code related
-      duration: "6 Weeks",
-      level: "Advance",
-      author: "By Jennifer Wilson"
+  const { token } = useSelector((state) => state.auth);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("https://edu-master-psi.vercel.app/lesson/?isPaid=true&sortBy=scheduledDate&sortOrder=asc&scheduledAfter=2025-07-01", {
+          headers: {
+            token: token
+          }
+        });
+        const result = await response.json();
+        if (result.success) {
+          setCourses(result.data);
+        }
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    if (token) {
+      fetchCourses();
     }
-  ];
+  }, [token]);
+
+  const getVideoId = (videoUrl) => {
+    if (!videoUrl) return null;
+    try {
+      let videoId = null;
+      if (videoUrl.includes("v=")) {
+        videoId = videoUrl.split("v=")[1].split("&")[0];
+      } else if (videoUrl.includes("youtu.be/")) {
+        videoId = videoUrl.split("youtu.be/")[1].split("?")[0];
+      }
+      return videoId;
+    } catch (e) {
+      console.error("Error parsing video URL", e);
+    }
+    return null;
+  };
 
   return (
     <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto font-sans">
@@ -77,20 +63,26 @@ const Courses = () => {
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {courses.map((course) => (
-          <div key={course.id} className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+          <div key={course._id} className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
 
-            {/* Course Image */}
+            {/* Course Video */}
             <div className="rounded-lg overflow-hidden mb-6 h-64 md:h-80 w-full">
-              <img src={course.image} alt={course.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              <iframe
+                src={`https://www.youtube.com/embed/${getVideoId(course.video)}`}
+                title={course.title}
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
             </div>
 
             {/* Tags and Author */}
             <div className="flex justify-between items-center mb-4 text-sm">
               <div className="flex gap-2">
-                <span className="px-3 py-1 border border-gray-200 rounded-md text-gray-600">{course.duration}</span>
-                <span className="px-3 py-1 border border-gray-200 rounded-md text-gray-600">{course.level}</span>
+                <span className="px-3 py-1 border border-gray-200 rounded-md text-gray-600">4 Weeks</span>
+                <span className="px-3 py-1 border border-gray-200 rounded-md text-gray-600">{course.classLevel}</span>
               </div>
-              <span className="font-medium text-gray-900">{course.author}</span>
+              <span className="font-medium text-gray-900">By Instructor</span>
             </div>
 
             {/* Content */}
