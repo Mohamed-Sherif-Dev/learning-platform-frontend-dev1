@@ -87,6 +87,11 @@ const Header = () => {
               </Link>
             </li>
             <li>
+              <Link to="/studentexams" className="hover:text-gray-900 px-3 py-2">
+                Exams
+              </Link>
+            </li>
+            <li>
               <Link to="/about" className="hover:text-gray-900 px-3 py-2">
                 About Us
               </Link>

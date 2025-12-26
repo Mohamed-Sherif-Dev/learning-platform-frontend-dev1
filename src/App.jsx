@@ -25,6 +25,9 @@ import Question from "./dashboard/admin/Question/Question";
 import ExamQuestions from "./dashboard/admin/Question/ExamQuestion";
 import GeneralDashboard from "./components/GeneralDashboard";
 import StudentsCourses from "./components/StudentsCourses"
+import ExamPage from "./components/StudentExams/ExamPage";
+import StudentExams from "./components/StudentExams/StudentExams";
+
 
 
 
@@ -43,6 +46,8 @@ const App = () => {
           <Route path="/Courses/:id" element={<StudentsCourses />} />
           <Route path="contact" element={<Contact />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='/exampage/:examId' element={<ExamPage />} />
+          <Route path='studentexams' element={<StudentExams/>} />
 
           {/* Auth Routes */}
           <Route path='login' element={<Login />} />
